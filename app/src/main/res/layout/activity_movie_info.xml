@@ -19,6 +19,7 @@
         android:contentDescription="This will display the title of the selected movie."
         android:text="<Movie Title>"
         app:layout_constraintBottom_toTopOf="@+id/movieImage"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +53,7 @@
         android:text="<Movie Details>"
         app:layout_constraintBottom_toTopOf="@+id/moviePlot"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -66,6 +68,7 @@
         android:layout_marginBottom="40dp"
         android:contentDescription="This will display a basic movie synopsis."
         android:text="<Synopsis> "
+        android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"

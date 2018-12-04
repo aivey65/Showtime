@@ -5,10 +5,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+//import org.apache.http.HttpResponse;
+//import org.apache.http.client.HttpClient;
+//import org.apache.http.client.methods.HttpGet;
+//import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 
@@ -49,15 +49,15 @@ public class FandangoApiManager extends AsyncTask<String, Integer, String> {
 
         try {
 
-            String authorizationParameters = buildAuthorizationParameters(apiKey, sharedSecret);
-            String requestUri = String.format("%s/v%s/?%s&%s", baseUri, apiVersion, parameters, authorizationParameters);
-
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(requestUri));
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            response.getEntity().writeTo(out);
-            out.close();
-            result = out.toString();
+//            String authorizationParameters = buildAuthorizationParameters(apiKey, sharedSecret);
+//            String requestUri = String.format("%s/v%s/?%s&%s", baseUri, apiVersion, parameters, authorizationParameters);
+//
+//            HttpClient httpclient = new DefaultHttpClient();
+//            HttpResponse response = httpclient.execute(new HttpGet(requestUri));
+//            ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            response.getEntity().writeTo(out);
+//            out.close();
+//            result = out.toString();
 
         } catch (Exception e) {
 
