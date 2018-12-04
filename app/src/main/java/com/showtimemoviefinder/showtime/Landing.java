@@ -2,6 +2,14 @@ package com.showtimemoviefinder.showtime;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+
+import org.json.JSONObject;
 
 public class Landing extends AppCompatActivity {
 
@@ -40,3 +48,5 @@ public class Landing extends AppCompatActivity {
     }
 
 }
+
+private static final String APP_ID = "INSERT YOUR API KEY HERE!";
