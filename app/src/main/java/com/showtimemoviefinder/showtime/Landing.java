@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 
 import org.json.JSONObject;
 
-public class Landing extends AppCompatActivity {
+public class Landing extends AppCompatActivity implements FandangoApiResultDelegate{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +32,13 @@ public class Landing extends AppCompatActivity {
      * below is an example of how the api can be used, but we would use the input rather than a
      * @param result
      */
-//    FandangoApiManager api = new FandangoApiManager();
-//    api.delegate = this; // Be sure to implement "FandangoApiResultDelegate" in your activity declaration
-//
-//    String zipCode = "90064";
-//    String parameters = String.format("op=theatersbypostalcodesearch&postalcode=%s", zipCode);
-//
-//        api.execute(parameters);
+    FandangoApiManager api = new FandangoApiManager();
+    api.delegate = this; // Be sure to implement "FandangoApiResultDelegate" in your activity declaration
+
+    String zipCode = "90064";
+    String parameters = String.format("op=theatersbypostalcodesearch&postalcode=%s", zipCode);
+
+    api.execute(parameters);
 
 
 
@@ -47,6 +47,7 @@ public class Landing extends AppCompatActivity {
         // Process response data...
     }
 
-}
 
-private static final String APP_ID = "INSERT YOUR API KEY HERE!";
+
+    private static final String APP_ID = "6m2xw628ffg3dnzya2sp4duy";
+}

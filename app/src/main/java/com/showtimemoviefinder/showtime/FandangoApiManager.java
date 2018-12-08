@@ -42,8 +42,8 @@ public class FandangoApiManager extends AsyncTask<String, Integer, String> {
         String apiVersion = "1";
 
         // Use your account-specific values here
-        String apiKey = "your_api_key";
-        String sharedSecret = "your_shared_secret";
+        String apiKey = "6m2xw628ffg3dnzya2sp4duy";
+        String sharedSecret = "t3rQUXAkFD";
 
         String result = null;
 
