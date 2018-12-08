@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-<uses-permission-sdk-23 android:name="android.permission.INTERNET" />
-    package="com.showtimemoviefinder.showtime">
+    package = "com.showtimemoviefinder.showtime">
 
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".Landing">
+        <activity android:name="com.showtimemoviefinder.showtime.Landing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
