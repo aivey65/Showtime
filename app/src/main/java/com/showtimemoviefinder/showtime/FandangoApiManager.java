@@ -5,6 +5,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import java.io.*;
+import java.net.URL;
+import java.net.HttpURLConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -41,17 +44,33 @@ public class FandangoApiManager extends AsyncTask<String, Integer, String> {
         String baseUri = "http://api.fandango.com";
         String apiVersion = "1";
 
-        // Use your account-specific values here
+        // DONE! (Use your account-specific values here)
         String apiKey = "6m2xw628ffg3dnzya2sp4duy";
         String sharedSecret = "t3rQUXAkFD";
 
-        String result = null;
+        //String result = null;
+        StringBuffer result = new StringBuffer();
 
         try {
 
             String authorizationParameters = buildAuthorizationParameters(apiKey, sharedSecret);
             String requestUri = String.format("%s/v%s/?%s&%s", baseUri, apiVersion, parameters, authorizationParameters);
+            URL url = new URL("http://www.android.com/");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            try {
+                InputStream in = url.openStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
+                String line;
+                while((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+            } finally {
+                urlConnection.disconnect();
+            }
+
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response = httpclient.execute(new HttpGet(requestUri));
             ByteArrayOutputStream out = new ByteArrayOutputStream();
