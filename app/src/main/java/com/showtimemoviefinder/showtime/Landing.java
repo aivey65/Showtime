@@ -41,8 +41,7 @@ public class Landing extends AppCompatActivity implements FandangoApiResultDeleg
         //WOrking with the api
         api.delegate = this;
         String parameters = String.format("op=theatersbypostalcodesearch&postalcode=%s", zipCode);
-        output.setText(api.getResponse(parameters));
-        //gotResult();
+        api.execute(parameters);
     }
 
 
