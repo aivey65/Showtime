@@ -46,7 +46,19 @@ public class Landing extends AppCompatActivity implements FandangoApiResultDeleg
         api.execute(parameters);
     }
 
-
+    /** ////////////////////////////////////
+     * ////////////////////////////////
+     * Hi Oishee! Below is the stuff you need to deal with. Right now, all it does right is display the json result.
+     * You can even run the app and see for yourself.
+     * Can you look through the documentation on the api website and look into separating these parts out to display
+     * what is listed on the google doc?
+     * I figured that because we dont have a lot of time, we should focus on the basics.
+     * ///////////////////////////////////////////////////
+     * @param result the json returned by the api
+     * //////////////////////////////////////////////////////////
+     *               ////////////////////////////////////////////////////////
+     *                        //////////////////////////////////////////////////////////////////////
+     */
     public void gotResult(String result) {
         setContentView(R.layout.activity_theatre_results);
         TextView theatreList = (TextView) findViewById(R.id.theatreList);
