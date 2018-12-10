@@ -1,8 +1,9 @@
 package com.showtimemoviefinder.showtime;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import java.io.*;
 import java.net.URL;
@@ -14,57 +15,41 @@ public class FandangoApiManager extends AsyncTask<String, Integer, String> {
 
     public FandangoApiResultDelegate delegate = null;
 
-    protected String sha256Encode(String StringToEncode) throws NoSuchAlgorithmException {
-
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] buffUtf8Msg = digest.digest(StringToEncode.getBytes());
-        String result = String.format("%0" + (buffUtf8Msg.length*2) + "X", new BigInteger(1, buffUtf8Msg));
-
-        return result;
-    }
-
-    protected String buildAuthorizationParameters(String apiKey, String sharedSecret) throws NoSuchAlgorithmException {
-
-        long seconds =  System.currentTimeMillis() / 1000;
-        String paramsToEncode = apiKey + sharedSecret + seconds;
-        String encodedParams = sha256Encode(paramsToEncode);
-
-        String result = String.format("api_key=%s&sig=%s", apiKey, encodedParams);
-
-        return result;
-    }
-
     protected String getResponse(String parameters) {
 
-        String baseUri = "http://api.fandango.com";
-        String apiVersion = "1";
+        String baseUri = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String[] dateArr = dateFormat.format(date).split(" "); //2016/11/16 12:08:43
 
-//        // DONE! (Use your account-specific values here)
-        String apiKey = "6m2xw628ffg3dnzya2sp4duy";
-        String sharedSecret = "t3rQUXAkFD";
-//
-//        //String result = null;
+        String startDate =dateArr[0];
+
+        String apiKey = "hxth5r3gjxaer3p9mcsmtezr";
         StringBuffer result = new StringBuffer();
-
+        URL url;
+        HttpURLConnection urlConnection = null;
         try {
+            url = new URL(String.format("%s%s&zip=%s&api_key=%s", baseUri, startDate, parameters, apiKey));
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection = (HttpURLConnection) url
+                    .openConnection();
 
-            String authorizationParameters = buildAuthorizationParameters(apiKey, sharedSecret);
-            String requestUri = String.format("%s/v%s/?%s&%s", baseUri, apiVersion, parameters, authorizationParameters);
+            InputStream in = urlConnection.getInputStream();
 
-            URL url = new URL(requestUri);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            try {
-                InputStream in = url.openStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-            } finally {
-                urlConnection.disconnect();
+            InputStreamReader isw = new InputStreamReader(in);
+
+            int data = isw.read();
+            while (data != -1) {
+                char current = (char) data;
+                data = isw.read();
+                result.append(current);
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
         return result.toString();
     }

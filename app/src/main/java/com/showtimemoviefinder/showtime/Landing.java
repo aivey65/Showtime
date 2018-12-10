@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -40,14 +42,15 @@ public class Landing extends AppCompatActivity implements FandangoApiResultDeleg
 
         //WOrking with the api
         api.delegate = this;
-        String parameters = String.format("op=theatersbypostalcodesearch&postalcode=%s", zipCode);
+        String parameters = String.format(zipCode);
         api.execute(parameters);
     }
 
 
     public void gotResult(String result) {
-        TextView output = (TextView) findViewById(R.id.output);
-        output.setText(result);
+        setContentView(R.layout.activity_theatre_results);
+        TextView theatreList = (TextView) findViewById(R.id.theatreList);
+        theatreList.setText(result);
     }
 
 
