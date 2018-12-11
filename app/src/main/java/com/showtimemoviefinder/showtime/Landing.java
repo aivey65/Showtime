@@ -43,7 +43,7 @@ public class Landing extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         // Load the main layout for our activity
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_landing);
 
         // Attach the handler to our UI button
         final Button button = findViewById(R.id.button);
