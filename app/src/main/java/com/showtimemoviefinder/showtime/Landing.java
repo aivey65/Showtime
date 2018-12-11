@@ -1,134 +1,119 @@
 package com.showtimemoviefinder.showtime;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.EditText;
-import java.util.Date;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import com.android.volley.*;
-import org.json.JSONArray;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONObject;
-import java.nio.charset.Charset;
-
-import java.io.*;
-import java.net.URL;
-import java.net.HttpURLConnection;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.ArrayAdapter;
-import java.util.List;
-import java.util.ArrayList;
 
-import org.json.JSONArray;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Landing extends AppCompatActivity {
 
-    public static RequestQueue requestQueue;
-    JSONObject apiResult;
-    public String urll;
+    private static final String TAG = "Showtime:Main";
+    private static RequestQueue requestQueue;
+    private String json;
 
+    /**
+     * Run when our activity comes into view.
+     *
+     * @param savedInstanceState state that was saved by the activity last time it was paused
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set up a queue for our Volley requests
         requestQueue = Volley.newRequestQueue(this);
-        setContentView(R.layout.activity_landing);
-    }
 
+        // Load the main layout for our activity
+        setContentView(R.layout.activity_main);
 
-    public void processZip(android.view.View view) {
-
-        //Below is getting the zipcode from the user and then displaying it
-        EditText inputZip = (EditText) findViewById(R.id.movieInput);
-        String zipCode = inputZip.getText().toString();
-        TextView output = (TextView) findViewById(R.id.output);
-
-
-        //WOrking with the api
-        String parameters = String.format(zipCode);
-        getResponse(parameters);
-    }
-
-    protected void getResponse(String parameters) {
-        try {
-            String url;
-            apiResult = new JSONObject();
-            HttpURLConnection urlConnection = null;
-            String baseUri = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-            String[] dateArr = dateFormat.format(date).split(" "); //2016/11/16 12:08:43
-
-            String startDate = dateArr[0];
-
-            String apiKey = "hxth5r3gjxaer3p9mcsmtezr";
-            final StringBuffer result = new StringBuffer();
-            try {
-                url = String.format("%s%s&zip=%s&api_key=%s", baseUri, startDate, parameters, apiKey);
-                urll = url;
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                        Request.Method.GET,
-                        url,
-                        null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(final JSONObject response) {
-                                apiResult = response;
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(final VolleyError error) {
-                        System.out.print(error.toString());
-                    }
-                });
-                requestQueue.add(jsonObjectRequest);
-            } catch (Exception e) {
-                e.printStackTrace();
+        // Attach the handler to our UI button
+        final Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final EditText edit = findViewById(R.id.MovieInput);
+                String search = edit.getText().toString();
+                search = search.replace(" ", "%20");
+                startAPICall(search);
+                TextView answer = findViewById(R.id.JsonResult);
+                answer.setText(getDetails(json));
             }
-            gotResult();
+        });
+    }
 
+    /**
+     * Make an API call.
+     * @param search fmdik
+     */
+    void startAPICall(String search) throws JSONException {
+        try {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.GET,
+                    "https://api.themoviedb.org/3/search/movie?api_key="
+                            + "4faf2feec28e411ec393552c6b2f4df0" + "&language=en-US&query=" + search + "&page=1&include_adult=false",
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(final JSONObject response) {
+                            try {
+                                Log.d(TAG, response.toString(2));
+                                json = response.toString();
+                            } catch (JSONException ignored) {
+                                throw ignored;
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    Log.e(TAG, error.toString());
+                }
+            });
+            requestQueue.add(jsonObjectRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
-        /** ////////////////////////////////////
-         * ////////////////////////////////
-         * Below is the stuff you need to deal with. Right now, all it does right is display the json result.
-         * You can even run the app and see for yourself.
-         * Can you look through the documentation on the api website and look into separating these parts out to display
-         * what is listed on the google doc?
-         * I figured that because we dont have a lot of time, we should focus on the basics.
-         * ///////////////////////////////////////////////////
-         * //////////////////////////////////////////////////////////
-         *               ////////////////////////////////////////////////////////
-         *                        //////////////////////////////////////////////////////////////////////
-         */
-        private void gotResult(){
-            setContentView(R.layout.activity_theatre_results);
-            TextView theatreList = (TextView) findViewById(R.id.theatreList);
-            try {
-                theatreList.setText(apiResult.toString());
-            } catch (Exception e) {
-                theatreList.setText("error");
-            }
-
-//        List<Movie> movies = new ArrayList<>();
-//        for (int i = 0; i < result.length(); i++) {
-//            movies.add(new Movie(result[i].get("title"), ))
-//        }
-//        ArrayAdapter<JSONObject> adapter = new ArrayAdapter<String>(this,
-//                findViewById(R.id.theatreList), movies);
+    public String getDetails(final String json) {
+        if (json == null) {
+            return "";
         }
-    }
+        JsonParser parser = new JsonParser();
+        JsonObject result = parser.parse(json).getAsJsonObject();
+        if (result == null) {
+            return "";
+        }
+        int total = result.get("total_results").getAsInt();
+        if (total == 0) {
+            return "Invalid movie choice";
+        }
+        JsonArray results = result.get("results").getAsJsonArray();
+        JsonObject details = results.get(0).getAsJsonObject();
+        String vote = details.get("vote_average").getAsString();
+        String title = details.get("title").getAsString();
+        String overview = details.get("overview").getAsString();
+        String rdate = details.get("release_date").getAsString();
 
+        return "Title" + title + "\n" + "Overview" + overview + "\n" + "Rating" + vote + "\n" + "Release Date" + rdate;
+    }
+}
