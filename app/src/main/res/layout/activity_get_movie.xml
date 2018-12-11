@@ -7,19 +7,17 @@
     tools:context=".Landing">
 
     <TextView
-        android:id="@+id/enterZipcode"
+        android:id="@+id/enterMovie"
         android:layout_width="229dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/enter"
-        android:textSize="20sp"
+        android:text="@string/enter2"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/movieInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
@@ -29,7 +27,6 @@
 
     <EditText
         android:id="@+id/movieInput"
-        android:autofillHints="@string/enter"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
@@ -37,8 +34,8 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="60dp"
         android:ems="10"
-        android:hint="@string/enter"
-        android:inputType="number"
+        android:hint="@string/enter2hint"
+        android:inputType="text"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/submitButton2"
         app:layout_constraintEnd_toEndOf="parent"

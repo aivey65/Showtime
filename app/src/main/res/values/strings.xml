@@ -2,4 +2,8 @@
     <string name="app_name">Showtime</string>
     <string name="enter">Enter Your Zip code</string>
     <string name="submit">Submit</string>
+    <string name="enter2">Enter the movie</string>
+    <string name="enter2hint">What would you like to see?</string>
+
+
 </resources>
